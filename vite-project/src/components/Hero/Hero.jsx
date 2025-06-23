@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./Hero.css";
 import Header from "../Header/Header";
 import "../../App.css";
@@ -7,13 +7,26 @@ import hero_image_back from "../../assets/hero_image_back.png";
 import Heart from "../../assets/heart.png";
 import calories from "../../assets/calories.png";
 import { motion } from "framer-motion";
-import CountUp from "react-countup";
+import { useCountUp } from "react-countup";
+
 const Hero = () => {
   const transition = { type: "spring", duration: 4 };
-  const mobile = window.innerWidth <= 768 ? true : false;
+  const mobile = window.innerWidth <= 768;
+
+  // Refs for CountUp
+  const coachesRef = useRef(null);
+  const membersRef = useRef(null);
+  const programsRef = useRef(null);
+
+  // Initialize useCountUp
+  useCountUp({ ref: coachesRef, start: 100, end: 140, duration: 3, prefix: "+" });
+  useCountUp({ ref: membersRef, start: 700, end: 978, duration: 3, prefix: "+" });
+  useCountUp({ ref: programsRef, start: 4, end: 44, duration: 3, prefix: "+" });
+
   return (
     <div className="hero" id="home">
       <div className="blur hero-blur"></div>
+
       <div className="left-h">
         <Header />
 
@@ -25,11 +38,11 @@ const Hero = () => {
           ></motion.div>
           <span>The Best fitness club in the town.</span>
         </div>
+
         <div className="hero-text">
           <div>
             <span className="shape-text">Shape</span> <span>your</span>
           </div>
-
           <div>
             <span>Ideal body</span>
           </div>
@@ -44,50 +57,25 @@ const Hero = () => {
 
         <div className="figures">
           <div>
-            <span className="fn">
-              <CountUp
-                start={100}
-                end={140}
-                delay={0}
-                prefix="+"
-                duration={3}
-                enableScrollSpy={true}
-              />
-            </span>
+            <span className="fn" ref={coachesRef}></span>
             <span className="ft">expert coaches</span>
           </div>
           <div>
-            <span className="fn">
-              <CountUp
-                start={700}
-                end={978}
-                delay={0}
-                prefix="+"
-                duration={3}
-                enableScrollSpy={true}
-              />
-            </span>
+            <span className="fn" ref={membersRef}></span>
             <span className="ft">members joined</span>
           </div>
           <div>
-            <span className="fn">
-              <CountUp
-                start={4}
-                end={44}
-                delay={0}
-                prefix="+"
-                duration={3}
-                enableScrollSpy={true}
-              />
-            </span>
+            <span className="fn" ref={programsRef}></span>
             <span className="ft">fitness programs</span>
           </div>
         </div>
+
         <div className="hero-buttons">
           <button className="btn">Get Started</button>
           <button className="btn">Learn More</button>
         </div>
       </div>
+
       <div className="right-h">
         <button className="btn">Join Now</button>
 
@@ -101,7 +89,9 @@ const Hero = () => {
           <span>Heart Rate</span>
           <span>116 bpm</span>
         </motion.div>
+
         <img src={hero_image} alt="" className="hero-image" />
+
         <motion.img
           initial={{ right: "11rem" }}
           whileInView={{ right: "20rem" }}
@@ -114,7 +104,7 @@ const Hero = () => {
         <motion.div
           initial={{ right: "39rem" }}
           whileInView={{ right: "28rem" }}
-          transition={{ transition, duration: 2 }}
+          transition={{ ...transition, duration: 2 }}
           className="calories"
         >
           <img src={calories} alt="" />

@@ -4,6 +4,7 @@ import {testimonialsData} from "../../data/testimonialsData";
 import '../../App.css';
 import leftArrow from '../../assets/leftArrow.png';
 import rightArrow from '../../assets/rightArrow.png';
+
 import {motion} from 'framer-motion';
 const Testimonials = () => {
    const transition = {type: 'spring', duration : 4}
